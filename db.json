@@ -1,0 +1,73 @@
+{
+  "reservations": [
+    {
+      "id": "3092",
+      "name": "Abhishek",
+      "tableNumber": "5",
+      "phoneNumber": "7892736965",
+      "numGuests": "5",
+      "location": "bar"
+    },
+    {
+      "id": "11f9",
+      "name": "Abhishek",
+      "tableNumber": "4",
+      "phoneNumber": "7892736965",
+      "numGuests": "5",
+      "location": "bar"
+    },
+    {
+      "id": "7d6c",
+      "name": "Abhishek",
+      "tableNumber": "25",
+      "phoneNumber": "7892736965",
+      "numGuests": "5",
+      "location": "bar"
+    },
+    {
+      "id": "65dd",
+      "name": "John",
+      "tableNumber": "5",
+      "phoneNumber": "7892736965",
+      "numGuests": "3",
+      "location": "restaurant",
+      "isMember": "yes"
+    },
+    {
+      "id": "272d",
+      "name": "Abhi",
+      "tableNumber": "2",
+      "phoneNumber": "1234567890",
+      "numGuests": "2",
+      "location": "restaurant",
+      "isMember": "yes"
+    },
+    {
+      "id": "0230",
+      "name": "Sam",
+      "tableNumber": "2",
+      "phoneNumber": "7888555222",
+      "numGuests": "2",
+      "location": "bar",
+      "isMember": "no"
+    },
+    {
+      "id": "d9d7",
+      "name": "Abhishek",
+      "tableNumber": "4",
+      "phoneNumber": "7892736965",
+      "numGuests": "13",
+      "location": "restaurant",
+      "isMember": "yes"
+    },
+    {
+      "id": "5ee1",
+      "name": "Ram",
+      "tableNumber": "3",
+      "phoneNumber": "1354254555",
+      "numGuests": "3",
+      "location": "bar",
+      "isMember": "no"
+    }
+  ]
+}
