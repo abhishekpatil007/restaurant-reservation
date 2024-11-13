@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 function AdminPage() {
-    const [reservations, setReservations] = useState([]); // Ensure this line is correct
+    const [reservations, setReservations] = useState([]);
 
     // Fetch reservations from MySQL database
     const fetchReservations = () => {
-        fetch('http://localhost:5000/api/reservations')
+        fetch('http://13.127.42.139:5000/api/reservations')
             .then((response) => response.json())
             .then((data) => {
-                console.log('Fetched reservations:', data); // Debugging line
+                console.log('Fetched reservations:', data);
                 setReservations(data);
             })
             .catch((error) => {
@@ -28,35 +28,61 @@ function AdminPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-teal-100 to-teal-300 flex items-center justify-center p-6">
+        <div className="min-h-screen flex items-center justify-center p-6 relative">
+            {/* Background Image Container */}
+            <div
+                className="absolute top-0 left-0 right-0 bottom-0"
+                style={{
+                    backgroundImage: `url('/backgroundImage.jpg')`, // Reference to the public folder
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    filter: 'blur(5px)', // Apply blur effect
+                    zIndex: -1, // Send it behind other elements
+                }}
+            ></div>
+
             <motion.div
-                className="bg-gradient-to-br from-white via-teal-50 to-teal-200 shadow-lg rounded-lg border border-gray-300 p-8 max-w-4xl w-full relative overflow-hidden"
+                className="bg-gradient-to-br from-white via-teal-50 to-teal-200 shadow-lg rounded-lg border border-gray-300 p-8 w-full relative overflow-hidden"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
+                style={{ width: '90%', minHeight: reservations.length > 0 ? 'auto' : '600px' }}
             >
-                <div className="absolute inset-0 -z-10">
-                    <div className="w-full h-full bg-[url('https://source.unsplash.com/1K6XxR6ZgAc')] bg-cover bg-center opacity-10"></div>
-                </div>
-
                 <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center relative z-10">Admin - Reservations</h2>
-
+ 
                 <div className="relative z-10">
                     {reservations.length === 0 ? (
                         <p className="text-gray-700 text-center">No reservations yet.</p>
                     ) : (
-                        <div className="space-y-4">
-                            {reservations.map((reservation) => (
-                                <div key={reservation.id} className="bg-white shadow-md rounded-lg border border-gray-300 p-4 mb-4">
-                                    <h3 className="text-xl font-semibold text-gray-800">Reservation {reservation.id}</h3>
-                                    <p className="text-gray-700">Name: {reservation.name}</p>
-                                    <p className="text-gray-700">Table Number: {reservation.table_number}</p>
-                                    <p className="text-gray-700">Phone: {reservation.phone}</p>
-                                    <p className="text-gray-700">Guests: {reservation.guests}</p>
-                                    <p className="text-gray-700">Location: {reservation.location}</p>
-                                    <p className="text-gray-700">Member: {reservation.member}</p>
-                                </div>
-                            ))}
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full bg-white border border-gray-300" style={{ fontSize: '1.5em', width: '1000px', margin: '0 auto' }}>
+                                <thead>
+                                    <tr>
+                                        <th className="border border-gray-300 p-2">ID</th>
+                                        <th className="border border-gray-300 p-2">Name</th>
+                                        <th className="border border-gray-300 p-2">Table Number</th>
+                                        <th className="border border-gray-300 p-2">Phone</th>
+                                        <th className="border border-gray-300 p-2">Guests</th>
+                                        <th className="border border-gray-300 p-2">Location</th>
+                                        <th className="border border-gray-300 p-2">Member</th>
+                                        <th className="border border-gray-300 p-2">Created At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {reservations.map((reservation) => (
+                                        <tr key={reservation.id}>
+                                            <td className="border border-gray-300 p-2">{reservation.id}</td>
+                                            <td className="border border-gray-300 p-2">{reservation.name}</td>
+                                            <td className="border border-gray-300 p-2">{reservation.table_number}</td>
+                                            <td className="border border-gray-300 p-2">{reservation.phone}</td>
+                                            <td className="border border-gray-300 p-2">{reservation.guests}</td>
+                                            <td className="border border-gray-300 p-2">{reservation.location}</td>
+                                            <td className="border border-gray-300 p-2">{reservation.member ? 'Yes' : 'No'}</td>
+                                            <td className="border border-gray-300 p-2">{new Date(reservation.created_at).toLocaleString()}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     )}
                 </div>

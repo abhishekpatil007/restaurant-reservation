@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import backgroundImage from './backgroundImage.jpg'; // Ensure this path is correct
+import { useNavigate } from 'react-router-dom';
 
 function ReservationForm() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     table: '',
     phone: '',
     guests: '',
-    location: '',
+    location: '', 
     member: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -32,7 +35,7 @@ function ReservationForm() {
         return;
     }
 
-    fetch('http://localhost:5000/api/reservations', {
+    fetch('http://13.127.42.139:5000/api/reservations', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -62,14 +65,67 @@ function ReservationForm() {
         });
 };
 
+  const handleAdminClick = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  const handleLogin = () => {
+    const username = document.getElementById("admin-username").value;
+    const password = document.getElementById("admin-password").value;
+
+    if (username === 'mysoreunion' && password === 'Union@1234') {
+      
+      handleModalClose();
+      navigate('/admin');
+    } else {
+      alert('Access denied');
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 relative">
+      {/* Admin Button */}
+      <button
+        onClick={handleAdminClick}
+        className="absolute top-4 right-4 p-2 bg-blue-500 text-white rounded-lg"
+      >
+        Admin
+      </button>
+
+      {/* Modal for Admin Login */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-bold mb-4">Admin Login</h2>
+            <input
+              type="text"
+              id="admin-username"
+              placeholder="Username"
+              className="border border-gray-300 p-2 mb-4 w-full"
+            />
+            <input
+              type="password"
+              id="admin-password"
+              placeholder="Password"
+              className="border border-gray-300 p-2 mb-4 w-full"
+            />
+            <div className="flex justify-between">
+              <button onClick={handleLogin} className="bg-teal-500 text-white p-2 rounded-lg">Login</button>
+              <button onClick={handleModalClose} className="bg-red-500 text-white p-2 rounded-lg">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Background Image Container */}
       <div
         className="absolute top-0 left-0 right-0 bottom-0"
         style={{
-          backgroundImage: `url(${backgroundImage})`,
+          backgroundImage: `url('/backgroundImage.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(5px)', // Apply blur effect
